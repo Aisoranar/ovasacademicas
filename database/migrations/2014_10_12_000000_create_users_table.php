@@ -6,25 +6,44 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nombre_completo')->nullable();
+            $table->string('identificacion')->unique();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->enum('rol', ['admin', 'docente', 'estudiante']);
+            $table->enum('programa_academico', [
+                'Administración de Negocios Internacionales',
+                'Ingeniería Informática',
+                'Licenciatura en Artes',
+                'Química',
+                'Comunicación Social',
+                'Trabajo Social',
+                'Derecho',
+                'Técnico en Extracción de Biomasa Enérgetica - Modalidad presencial',
+                'Tecnología en Procesamiento de Alimentos - Modalidad a distancia',
+                'Ingeniería Agroindustrial',
+                'Ingeniería Agronómica',
+                'Ingeniería Civil',
+                'Tecnología en Obras Civiles',
+                'Ingeniería Ambiental y de Saneamiento',
+                'Tecnología en Operación de Sistemas Electromecánicos',
+                'Tecnología en Seguridad y Salud en el Trabajo',
+                'Ingeniería de Producción',
+                'Ingeniería en Seguridad y Salud en el Trabajo',
+                'Medicina Veterinaria y Zootecnia',
+            ])->nullable()->comment('Programa académico del usuario');
+            $table->string('departamento_academico')->nullable()->comment('Departamento académico');
+            $table->enum('tipo_registro', ['email','oauth','manual'])
+                  ->default('email')
+                  ->comment('Método de registro: email, oauth, manual');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');

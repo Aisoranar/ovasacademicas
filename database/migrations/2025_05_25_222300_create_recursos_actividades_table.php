@@ -6,20 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('recursos_actividades', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('actividad_id')->constrained('actividades')->onDelete('cascade');
+            $table->enum('tipo', ['video','pdf','enlace','imagen'])->default('video');
+            $table->string('url');
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('recursos_actividades');

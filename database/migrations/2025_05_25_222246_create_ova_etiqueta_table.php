@@ -6,20 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('ova_etiqueta', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ova_id')->constrained('ovas')->onDelete('cascade');
+            $table->foreignId('etiqueta_id')->constrained('etiquetas')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('ova_etiqueta');
