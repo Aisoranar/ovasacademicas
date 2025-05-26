@@ -19,7 +19,7 @@ class EstudianteDashboardController extends Controller
         $user = auth()->user();
         
         // Obtener OVAs disponibles para el programa académico del estudiante
-        $ovas = Ova::whereHas('programaAcademico', function ($query) use ($user) {
+        $ovas = Ova::whereHas('programa', function ($query) use ($user) {
                 $query->where('id', $user->programa_id);
             })
             ->where('estado', 'publicado')
